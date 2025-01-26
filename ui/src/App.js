@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
@@ -22,6 +22,23 @@ function App() {
         }
       
     }
+
+    //use effect = it will fetch data from backend only on start 
+    //
+    useEffect(() => {
+        const fetchMovies = async () => {
+            const response = await fetch(`/movies`);
+
+            if (response.ok) {
+                const movies = await response.json();
+                setMovies(movies);
+            }
+        };
+    
+        fetchMovies();
+// empty array [] gives option that it is executed only onece because array is empty and it guarantte thei1 execution
+// in other word effect worka on changes of array so if it is empty never change
+    }, []);
 
     return (
         <div className="container">
