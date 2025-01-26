@@ -10,6 +10,7 @@ function App() {
     const [addingMovie, setAddingMovie] = useState(false);
     // const [removeMovie, setRemoveMovie] = useState(false);
 
+    //current issue to fix read ID from backend that we can remove directly after adding
     async function handleAddMovie(movie) {
         const response = await fetch('/movies', {
           method: 'POST',
@@ -18,7 +19,9 @@ function App() {
         });
       
         if (response.ok) {
-          setMovies([...movies, movie]);
+            // fixed issue by adding reading (async) response deserialized from recived json
+          const movieFromServer = await response.json();  
+          setMovies([...movies, movieFromServer]);
           setAddingMovie(false);
         }
       
