@@ -8,6 +8,7 @@ import MoviesList from "./MoviesList";
 function App() {
     const [movies, setMovies] = useState([]);
     const [addingMovie, setAddingMovie] = useState(false);
+    // const [removeMovie, setRemoveMovie] = useState(false);
 
     async function handleAddMovie(movie) {
         const response = await fetch('/movies', {
@@ -23,8 +24,22 @@ function App() {
       
     }
 
+    async function handleRemoveMovie(movie) {
+        const response = await fetch(`/movies/${movie.id}`, {
+          method: 'DELETE'   
+        });
+      
+        if (response.ok) {
+          setMovies([...movies, movie]);
+          const removeMovie = movies.filter(m => m !== movie);
+
+          setMovies(removeMovie);
+        }
+      
+    }
+
     //use effect = it will fetch data from backend only on start 
-    //
+    // 
     useEffect(() => {
         const fetchMovies = async () => {
             const response = await fetch(`/movies`);
@@ -46,13 +61,14 @@ function App() {
             {movies.length === 0
                 ? <p>No movies yet. Maybe add something?</p>
                 : <MoviesList movies={movies}
-                              onDeleteMovie={(movie) => setMovies(movies.filter(m => m !== movie))}
+                              onDeleteMovie={handleRemoveMovie}
                 />}
             {addingMovie
                 ? <MovieForm onMovieSubmit={handleAddMovie}
                              buttonLabel="Add a movieX"
                 />
                 : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
+            
         </div>
     );
 }
