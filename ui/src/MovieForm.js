@@ -20,6 +20,16 @@ export default function MovieForm(props) {
         setDescription('');
     }
 
+    function addActor(event) {
+        event.preventDefault();
+        if (actorName.length === 0 || actorSurname.length === 0) {
+            return alert('Add actor name and surname, please');
+        }
+        props.onAddActor({name: actorName, surname: actorSurname});
+        setActorName('');
+        setActorSurname('');
+    }
+
     return <form onSubmit={addMovie}>
         <h2>Add movie</h2>
         <div>

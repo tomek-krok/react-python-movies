@@ -24,7 +24,7 @@ function App() {
           setMovies([...movies, movieFromServer]);
           setAddingMovie(false);
         }
-      
+    
     }
 
     async function handleRemoveMovie(movie) {
@@ -39,6 +39,22 @@ function App() {
           setMovies(removeMovie);
         }
       
+    }
+
+    async function handleAddActor(movie) {
+        const response = await fetch('/movies', {
+          method: 'POST',
+          body: JSON.stringify(movie),   
+          headers: { 'Content-Type': 'application/json' }    
+        });
+      
+        if (response.ok) {
+            // fixed issue by adding reading (async) response deserialized from recived json
+          const movieFromServer = await response.json();  
+          setMovies([...movies, movieFromServer]);
+        //   setAddingMovie(false);
+        }
+    
     }
 
     //use effect = it will fetch data from backend only on start 
