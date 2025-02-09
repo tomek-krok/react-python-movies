@@ -5,6 +5,8 @@ export default function MovieForm(props) {
     const [year, setYear] = useState('');
     const [director, setDirector] = useState('');
     const [description, setDescription] = useState('');
+    const [actorName, setActorName] = useState('');
+    const [actorSurname, setActorSurname] = useState('');
 
     function addMovie(event) {
         event.preventDefault();
@@ -35,6 +37,14 @@ export default function MovieForm(props) {
         <div>
             <label>Description</label>
             <textarea value={description} onChange={(event) => setDescription(event.target.value)}/>
+        </div>
+        <h3>Actors</h3>
+        <button type="button" onClick={() => props.onAddActor({name: actorName, surname: actorSurname})}>+</button>
+        <div>
+            <label>Actor Name</label>
+            <input type="text" value={actorName} onChange={(event) => setActorName(event.target.value)}/>
+            <label>Actor Surname</label>
+            <input type="text" value={actorSurname} onChange={(event) => setActorSurname(event.target.value)}/>
         </div>
         <button>{props.buttonLabel || 'Submit'}</button>
     </form>;
