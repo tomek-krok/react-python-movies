@@ -5,8 +5,8 @@ export default function MovieForm(props) {
     const [year, setYear] = useState('');
     const [director, setDirector] = useState('');
     const [description, setDescription] = useState('');
-    const [actorName, setActorName] = useState('');
-    const [actorSurname, setActorSurname] = useState('');
+    const [name, setName] = useState([]);
+    const [surname, setSurname] = useState([]);
 
     function addMovie(event) {
         event.preventDefault();
@@ -18,16 +18,18 @@ export default function MovieForm(props) {
         setYear('');
         setDirector('');
         setDescription('');
+        // setName('');
+        // setSurname('');
     }
 
     function addActor(event) {
         event.preventDefault();
-        if (actorName.length === 0 || actorSurname.length === 0) {
+        if (name.length === 0 || surname.length === 0) {
             return alert('Add actor name and surname, please');
         }
-        props.onAddActor({name: actorName, surname: actorSurname});
-        setActorName('');
-        setActorSurname('');
+        props.onAddActor({name, surname});
+        setName(...name, name);
+        setSurname(...surname, surname);
     }
 
     return <form onSubmit={addMovie}>
@@ -49,12 +51,12 @@ export default function MovieForm(props) {
             <textarea value={description} onChange={(event) => setDescription(event.target.value)}/>
         </div>
         <h3>Actors</h3>
-        <button type="button" onClick={() => props.onAddActor({name: actorName, surname: actorSurname})}>+</button>
+        <button type="button" onClick={addActor}>+</button>
         <div>
             <label>Actor Name</label>
-            <input type="text" value={actorName} onChange={(event) => setActorName(event.target.value)}/>
+            <input type="text" value={name} onChange={(event) => setName(event.target.value)}/>
             <label>Actor Surname</label>
-            <input type="text" value={actorSurname} onChange={(event) => setActorSurname(event.target.value)}/>
+            <input type="text" value={surname} onChange={(event) => setSurname(event.target.value)}/>
         </div>
         <button>{props.buttonLabel || 'Submit'}</button>
     </form>;

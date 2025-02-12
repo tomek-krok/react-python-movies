@@ -8,6 +8,7 @@ import MoviesList from "./MoviesList";
 function App() {
     const [movies, setMovies] = useState([]);
     const [addingMovie, setAddingMovie] = useState(false);
+    const [addActor, setAddActor] = useState([]);
     // const [removeMovie, setRemoveMovie] = useState(false);
 
     //current issue to fix read ID from backend that we can remove directly after adding
@@ -41,17 +42,17 @@ function App() {
       
     }
 
-    async function handleAddActor(movie) {
-        const response = await fetch('/movies', {
+    async function handleAddActor(actor) {
+        const response = await fetch(`/actors`, {
           method: 'POST',
-          body: JSON.stringify(movie),   
+          body: JSON.stringify(actor),   
           headers: { 'Content-Type': 'application/json' }    
         });
       
         if (response.ok) {
             // fixed issue by adding reading (async) response deserialized from recived json
-          const movieFromServer = await response.json();  
-          setMovies([...movies, movieFromServer]);
+            const movieFromServer = await response.json();  
+            setAddActor([...addActor, movieFromServer]);
         //   setAddingMovie(false);
         }
     
@@ -84,7 +85,8 @@ function App() {
                 />}
             {addingMovie
                 ? <MovieForm onMovieSubmit={handleAddMovie}
-                             buttonLabel="Add a movieX"
+                                onAddActor={handleAddActor}
+                                buttonLabel="Add a movieX"
                 />
                 : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
             

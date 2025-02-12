@@ -25,21 +25,6 @@ def get_movies():
 def add_movie(movie: schemas.MovieBase):
     movie = models.Movie.create(**movie.dict())
     return movie
-@app.post("/actors", response_model=schemas.Movie)
-def add_actor(movie: schemas.ActorBase):
-    # if (movie.name is None) or (movie.surname is None):
-    #     raise HTTPException(status_code=400, detail="Actor name and surname is required")
-    # else:
-    #     movie = models.Actor.create(**movie.dict())
-    # return movie
-    movie = models.Actor.create(**movie.dict())
-    return movie
-
-@app.post("/movies_actors", response_model=schemas.Movie)
-def add_actor_movie(movie: schemas.ActorMovieBase):
-    movie = models.ActorMovie.create(**movie.dict())
-    return movie
-
 
 @app.get("/movies/{movie_id}", response_model=schemas.Movie)
 def get_movie(movie_id: int):
@@ -48,6 +33,17 @@ def get_movie(movie_id: int):
         raise HTTPException(status_code=404, detail="Movie not found")
     return db_movie
 
+@app.get("/actors", response_model=List[schemas.Actor])
+def get_actors():
+    return list(models.Actor.select())  
+
+@app.post("/actors", response_model=schemas.Actor)
+def add_actor(movie: schemas.ActorBase):
+    if (movie.name is None) or (movie.surname is None):
+        raise HTTPException(status_code=400, detail="Actor name and surname is required")
+    else:
+        movie = models.Actor.create(**movie.dict())
+    return movie
 
 @app.delete("/movies/{movie_id}", response_model=schemas.Movie)
 def get_movie(movie_id: int):
