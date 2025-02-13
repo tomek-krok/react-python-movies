@@ -23,6 +23,7 @@ function App() {
             // fixed issue by adding reading (async) response deserialized from recived json
           const movieFromServer = await response.json();  
           setMovies([...movies, movieFromServer]);
+          console.log(movies);
           setAddingMovie(false);
         }
     
