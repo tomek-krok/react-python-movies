@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
+import ActorForm from "./ActorForm";
 
 
 function App() {
@@ -52,9 +53,8 @@ function App() {
       
         if (response.ok) {
             // fixed issue by adding reading (async) response deserialized from recived json
-            const movieFromServer = await response.json();  
-            setAddActor([...addActor, movieFromServer]);
-        //   setAddingMovie(false);
+            const actorFromServer = await response.json();  
+            setAddActor([...addActor, actorFromServer]);;
         }
     
     }
@@ -85,10 +85,12 @@ function App() {
                               onDeleteMovie={handleRemoveMovie}
                 />}
             {addingMovie
-                ? <MovieForm onMovieSubmit={handleAddMovie}
-                                onAddActor={handleAddActor}
-                                buttonLabel="Add a movieX"
-                />
+                ?<div>
+                    <MovieForm onMovieSubmit={handleAddMovie}
+                              buttonLabel="Add a movie"/>
+                    {/* <ActorForm onAddActor={handleAddActor}
+                                 buttonLabel="Add an actor"/> */}
+                    </div>
                 : <button onClick={() => setAddingMovie(true)}>Add a movie</button>}
             
         </div>
