@@ -52,7 +52,15 @@ def add_actor(movie: schemas.ActorBase):
 @app.delete("/movies/{movie_id}", response_model=schemas.Movie)
 def get_movie(movie_id: int):
     db_movie = models.Movie.filter(models.Movie.id == movie_id).first()
+    db_movie_actors = models.ActorMovie.filter(models.ActorMovie.movie_id == movie_id)
+    
     if db_movie is None:
         raise HTTPException(status_code=404, detail="Movie not found")
-    db_movie.delete_instance()
+    else:
+        for actor in db_movie_actors:
+            db_actor = models.Actor.filter(models.Actor.id == actor.actor_id).first()
+            db_actor.delete_instance()
+            actor.delete_instance()
+        db_movie.delete_instance()
+
     return db_movie
