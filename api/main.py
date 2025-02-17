@@ -22,17 +22,12 @@ def get_movies():
 
 
 @app.post("/movies", response_model=schemas.Movie)
-def add_movie(movie: schemas.Movie):
-    movie = models.Movie.create(**movie.dict())
-    actors = [
-        {"name": "tomek", "surname": "frankowski"},
-        {"name": "john", "surname": "doe"},
-        {"name": "jane", "surname": "smith"}
-    ]
-    for actor in actors:
-        actor_instance = models.Actor.create(**actor)
-        models.ActorMovie.create(actor=actor_instance, movie=id(movie))
-        # models.ActorMovie.create(actor=actor, movie=movie)
+def add_movie(movie: schemas.MovieCreate):
+    movie_instance = models.Movie.create(**movie.dict(exclude={"actors"}))
+    for actor in movie.actors:
+        if (actor.name is not None) or (actor.surname is not None):
+            actor_instance = models.Actor.create(**actor.dict())
+            models.ActorMovie.create(actor=(actor_instance), movie=(movie_instance))
     return movie
 
 @app.get("/movies/{movie_id}", response_model=schemas.Movie)

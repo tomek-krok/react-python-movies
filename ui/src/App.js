@@ -14,7 +14,7 @@ function App() {
 
     //current issue to fix read ID from backend that we can remove directly after adding
     async function handleAddMovie(movie) {
-        const response = await fetch('/movies', {
+        const response = await fetch(`/movies`, {
           method: 'POST',
           body: JSON.stringify(movie),   
           headers: { 'Content-Type': 'application/json' }    
@@ -87,6 +87,7 @@ function App() {
             {addingMovie
                 ?<div>
                     <MovieForm onMovieSubmit={handleAddMovie}
+                              onAddActor={handleAddActor}
                               buttonLabel="Add a movie"/>
                     {/* <ActorForm onAddActor={handleAddActor}
                                  buttonLabel="Add an actor"/> */}
