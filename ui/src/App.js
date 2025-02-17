@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
-import ActorForm from "./ActorForm";
+// import ActorForm from "./ActorForm";
 
 
 function App() {

@@ -1,4 +1,5 @@
 import {useState} from "react";
+// import ActorForm from "./ActorForm";
 
 export default function MovieForm(props) {
     const [title, setTitle] = useState('');
@@ -62,6 +63,7 @@ export default function MovieForm(props) {
             <label>Description</label>
             <textarea value={description} placeholder="description (optional)"  onChange={(event) => setDescription(event.target.value)}/>
         </div>
+        {/* <ActorForm actors={actors} setActors={setActors}/> */}
 
         <h3>Actors:</h3>
 
